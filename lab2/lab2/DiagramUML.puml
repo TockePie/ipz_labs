@@ -1,0 +1,46 @@
+@startuml
+class org.example.Cl3 {
+~ Cl3 cl3
++ void meth1()
++ void meth3()
+}
+
+
+class org.example.Main {
++ {static} void main(String[])
+}
+
+interface org.example.If1 {
++ void meth1()
+}
+
+class org.example.Cl2 {
+~ Cl3 cl3
++ void meth1()
++ void meth2()
+}
+
+
+class org.example.Cl1 {
+~ If1 if1
++ void meth1()
+}
+
+
+interface org.example.If2 {
+~ void meth2()
+}
+
+interface org.example.If3 {
+~ void meth3()
+}
+
+
+
+org.example.If3 <|.. org.example.Cl3
+org.example.Cl2 <|-- org.example.Cl3
+org.example.If2 <|.. org.example.Cl2
+org.example.If1 <|.. org.example.Cl1
+org.example.If1 <|-- org.example.If2
+org.example.If1 <|-- org.example.If3
+@enduml

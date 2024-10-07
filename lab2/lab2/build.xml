@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="UMLJavaProject" basedir="." default="compile">
+
+    <!-- Defining properties for directories -->
+    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="doc.dir" value="doc"/>
+
+    <!-- Clean the build directory -->
+    <target name="clean">
+        <echo message="Cleaning build and doc directories..."/>
+        <delete dir="${build.dir}"/>
+        <delete dir="${doc.dir}"/>
+    </target>
+
+    <!-- Create necessary directories -->
+    <target name="prepare">
+        <echo message="Preparing build and doc directories..."/>
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${doc.dir}"/>
+    </target>
+
+    <!-- Compile the Java code -->
+    <target name="compile" depends="clean, prepare">
+        <echo message="Compiling Java code..."/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}">
+            <include name="**/*.java"/>
+        </javac>
+    </target>
+
+    <!-- Run the main class (replace with actual main class if needed) -->
+    <target name="run" depends="compile">
+        <echo message="Running the application..."/>
+        <java classname="Main" fork="true" classpath="${classes.dir}">
+            <classpath>
+                <pathelement path="${classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <!-- Generate JavaDoc -->
+    <target name="generate-javadoc">
+        <echo message="Generating JavaDoc..."/>
+        <javadoc destdir="${doc.dir}" sourcepath="${src.dir}">
+            <fileset dir="${src.dir}">
+                <include name="**/*.java"/>
+            </fileset>
+        </javadoc>
+    </target>
+
+</project>
