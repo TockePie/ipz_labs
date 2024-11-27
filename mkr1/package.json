@@ -1,0 +1,17 @@
+{
+  "name": "lab3",
+  "packageManager": "yarn@4.3.1",
+  "type": "module",
+  "scripts": {
+    "start": "ts-run index.ts",
+    "build": "tsc",
+    "doc": "typedoc index.ts"
+  },
+  "dependencies": {
+    "@types/node": "^22.7.5",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3",
+    "typescript-run": "^0.1.1"
+  }
+}
