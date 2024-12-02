@@ -1,0 +1,51 @@
+[
+  {
+    "items": [
+      {
+        "id": "menu-item-1733137777873",
+        "quantity": 1
+      },
+      {
+        "id": "menu-item-1733137777875",
+        "quantity": 3
+      }
+    ],
+    "customerDetails": {
+      "name": "John Doe",
+      "address": "123 Main St",
+      "phone": "+3800442384470"
+    },
+    "totalPrice": 29.96,
+    "status": "inactive",
+    "id": "order-1733139019921"
+  },
+  {
+    "id": "order-1734686989408",
+    "items": [
+      {
+        "id": "menu-item-1733137777873",
+        "quantity": 2
+      },
+      {
+        "id": "menu-item-1733137777874",
+        "quantity": 3
+      },
+      {
+        "id": "menu-item-1733137777875",
+        "quantity": 2
+      },
+      {
+        "id": "menu-item-1733137777877",
+        "quantity": 2
+      }
+    ],
+    "customerDetails": {
+      "name": "Maxim",
+      "surname": "Krad",
+      "address": "sq. React, 19",
+      "phone": "+380442387740"
+    },
+    "status": "inactive",
+    "totalPrice": 75.91
+  }
+]

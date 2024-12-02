@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Cheeseburger",
+    "image": "https://i.imgur.com/kDpWYVB.jpeg",
+    "description": "A juicy cheeseburger with lettuce and tomato.",
+    "price": 8.99,
+    "category": "Burgers",
+    "id": "menu-item-1733137777873"
+  },
+  {
+    "name": "Chicken Tenders",
+    "image": "https://i.imgur.com/tGrkYwk.jpeg",
+    "description": "Crispy chicken tenders served with your choice of dipping sauce.",
+    "price": 7.99,
+    "category": "Appetizers",
+    "id": "menu-item-1733137777874"
+  },
+  {
+    "name": "Caesar Salad",
+    "image": "https://i.imgur.com/uLHEm25.jpeg",
+    "description": "Romaine lettuce, croutons, and parmesan cheese tossed in Caesar dressing.",
+    "price": 6.99,
+    "category": "Salads",
+    "id": "menu-item-1733137777875"
+  },
+  {
+    "name": "Margarita Pizza",
+    "image": "https://i.imgur.com/ZN6rneo.jpeg",
+    "description": "A classic margarita pizza with fresh mozzarella and basil.",
+    "price": 10.99,
+    "category": "Pizza",
+    "id": "menu-item-1733137777876"
+  },
+  {
+    "name": "Spaghetti Bolognese",
+    "image": "https://i.imgur.com/OBIGij4.jpeg",
+    "description": "Spaghetti noodles topped with a hearty meat sauce.",
+    "price": 9.99,
+    "category": "Pasta",
+    "id": "menu-item-1733137777877"
+  }
+]
