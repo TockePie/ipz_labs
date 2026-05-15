@@ -1,38 +1,21 @@
-import { SubmitHandler, useForm } from 'react-hook-form'
-
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Customer } from '@/types/customer'
 
-const OrderForm = ({
-  isPending,
-  mutate
-}: {
+interface OrderFormProps {
   isPending: boolean
-  mutate: (data: Customer) => void
-}) => {
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: '',
-      surname: '',
-      address: '',
-      phone: ''
-    }
-  })
+  formAction: (formData: FormData) => void
+}
 
-  const handleCartSubmit: SubmitHandler<Customer> = (data) => mutate(data)
-
+const OrderForm = ({ isPending, formAction }: OrderFormProps) => {
   return (
-    <form
-      onSubmit={handleSubmit(handleCartSubmit)}
-      className="flex w-[80vw] flex-col gap-4"
-    >
-      <Input type="text" placeholder="Your Name" {...register('name')} />
-      <Input type="text" placeholder="Your Surname" {...register('surname')} />
-      <Input type="text" placeholder="Your Address" {...register('address')} />
-      <Input type="number" placeholder="Your Phone" {...register('phone')} />
+    <form action={formAction} className="flex w-[80vw] flex-col gap-4">
+      <Input type="text" name="name" placeholder="Your Name" required />
+      <Input type="text" name="surname" placeholder="Your Surname" required />
+      <Input type="text" name="address" placeholder="Your Address" required />
+      <Input type="number" name="phone" placeholder="Your Phone" required />
+
       <Button disabled={isPending} type="submit">
-        Submit
+        {isPending ? 'Submitting...' : 'Submit'}
       </Button>
     </form>
   )

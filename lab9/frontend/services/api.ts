@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import { MenuItem } from '@/types/menu'
-import { OrderProps } from '@/types/order'
+import { Dish } from '@/types/dish'
+import { Order } from '@/types/order'
 
 const BASE_URL = 'http://localhost:5000'
 const axiosInstance = axios.create({
@@ -9,21 +9,16 @@ const axiosInstance = axios.create({
 })
 
 const getMenu = async () => {
-  const response = await axiosInstance.get<MenuItem[]>('/menu')
-  return response.data
-}
-
-const getMenuItem = async (id: string) => {
-  const response = await axiosInstance.get<MenuItem>(`/menu/${id}`)
+  const response = await axiosInstance.get<Dish[]>('/menu')
   return response.data
 }
 
 const getOrders = async () => {
-  const response = await axiosInstance.get<OrderProps[]>('/orders')
+  const response = await axiosInstance.get<Order[]>('/orders')
   return response.data
 }
 
-const sendOrder = async (order: OrderProps) => {
+const sendOrder = async (order: Order) => {
   const response = await axiosInstance.post('/orders', order)
   return response.data
 }
@@ -38,11 +33,4 @@ const deleteOrder = async (id: string) => {
   return response.data
 }
 
-export {
-  deleteOrder,
-  getMenu,
-  getMenuItem,
-  getOrders,
-  sendOrder,
-  updateOrderStatus
-}
+export { deleteOrder, getMenu, getOrders, sendOrder, updateOrderStatus }

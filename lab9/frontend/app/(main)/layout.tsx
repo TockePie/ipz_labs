@@ -1,11 +1,9 @@
-import { ReactNode } from 'react'
-
 import MenuBar from '@/components/menu-bar/MenuBar'
 
 const MenuLayout = ({
   children
 }: Readonly<{
-  children: ReactNode
+  children: React.ReactNode
 }>) => {
   return (
     <>

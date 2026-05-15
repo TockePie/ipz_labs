@@ -4,10 +4,10 @@ import { CircleCheck, CircleSlash, CookingPot } from 'lucide-react'
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { updateOrderStatus } from '@/services/api'
-import { OrderProps } from '@/types/order'
+import { Order } from '@/types/order'
 
 interface StatusTabsProps {
-  status: OrderProps['status']
+  status: Order['status']
   id: string
 }
 

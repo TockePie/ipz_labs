@@ -1,4 +1,5 @@
-import { FC } from 'react'
+'use client'
+
 import { useQueryClient } from '@tanstack/react-query'
 
 import { Button } from '@/components/ui/button'
@@ -8,16 +9,14 @@ interface ErrorCompProps {
   keyArray: string[]
 }
 
-const ErrorComp: FC<ErrorCompProps> = ({
-  message = 'Unknown error',
-  keyArray
-}) => {
+const ErrorComp = ({ message = 'Unknown error', keyArray }: ErrorCompProps) => {
   const queryClient = useQueryClient()
 
-  const handleRetry = () =>
+  const handleRetry = () => {
     queryClient.invalidateQueries({
       queryKey: keyArray
     })
+  }
 
   return (
     <div className="flex min-h-screen w-56 flex-col items-center gap-y-2">

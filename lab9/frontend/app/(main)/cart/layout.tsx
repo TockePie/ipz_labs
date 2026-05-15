@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 const metadata = {
   title: 'Cart'
 }
@@ -7,7 +5,7 @@ const metadata = {
 const CartLayout = ({
   children
 }: Readonly<{
-  children: ReactNode
+  children: React.ReactNode
 }>) => {
   return (
     <div className="flex flex-col items-center dark:bg-black">

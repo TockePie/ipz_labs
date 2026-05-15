@@ -12,17 +12,12 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { deleteOrder } from '@/services/api'
-import { OrderProps } from '@/types/order'
+import { Order } from '@/types/order'
 
 import CardOrderItems from './components/CardOrderItems'
 import StatusTabs from './components/StatusTabs'
 
-interface CardCompAdminProps {
-  order: OrderProps
-  key: string
-}
-
-const CardCompAdmin = ({ order }: CardCompAdminProps) => {
+const CardCompAdmin = ({ order }: { order: Order }) => {
   const queryClient = useQueryClient()
   const [status, setStatus] = useState(order.status)
 
@@ -36,7 +31,7 @@ const CardCompAdmin = ({ order }: CardCompAdminProps) => {
   }
 
   return (
-    <Card key={order.id}>
+    <Card>
       <CardHeader>
         <div className="flex w-full justify-between">
           <CardTitle className="text-xl">{order.id.split('-')[1]}</CardTitle>
