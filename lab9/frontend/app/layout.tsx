@@ -1,20 +1,19 @@
-import clsx from 'clsx'
+import { cx } from 'class-variance-authority'
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
+import { Geist, Geist_Mono } from 'next/font/google'
 
-import Providers from '@/app/providers'
+import Providers from './providers'
 
-import '../styles/globals.css'
+import './globals.css'
 
-const geistSans = localFont({
-  src: '../styles/fonts/GeistVF.woff',
+const geistSans = Geist({
   variable: '--font-geist-sans',
-  weight: '100 900'
+  subsets: ['latin']
 })
-const geistMono = localFont({
-  src: '../styles/fonts/GeistMonoVF.woff',
+
+const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
-  weight: '100 900'
+  subsets: ['latin']
 })
 
 const metadata: Metadata = {
@@ -28,9 +27,9 @@ const RootLayout = ({
   children: React.ReactNode
 }>) => {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={clsx(
+        className={cx(
           geistSans.variable,
           geistMono.variable,
           'm-0 h-full antialiased'

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import clsx from 'clsx'
+import { cx } from 'class-variance-authority'
 import { X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -43,8 +43,8 @@ const CardCompAdmin = ({ order }: CardCompAdminProps) => {
           <Button
             size="icon"
             variant="secondary"
-            className={clsx(
-              'right-2 top-2 rounded-full',
+            className={cx(
+              'top-2 right-2 rounded-full',
               status !== 'completed' && 'hidden'
             )}
             onClick={handleDeleteOrder}
