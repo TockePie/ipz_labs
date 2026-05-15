@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import ErrorComp from '@/components/error-comp/ErrorComp'
@@ -26,6 +27,18 @@ const CartPage = () => {
     queryFn: getMenu
   })
 
+  const mergedCart = useMemo(() => {
+    return cart.flatMap((cartItem) => {
+      const menuItem = data.find((item) => item.id === cartItem.id)
+      if (!menuItem) return []
+
+      return {
+        ...menuItem,
+        quantity: cartItem.quantity
+      }
+    })
+  }, [cart, data])
+
   if (isLoading) {
     return <p className="min-h-screen">Loading menu items...</p>
   }
@@ -37,16 +50,6 @@ const CartPage = () => {
   if (cart.length === 0) {
     return <EmptyCart />
   }
-
-  const mergedCart = cart.flatMap((cartItem) => {
-    const menuItem = data.find((item) => item.id === cartItem.id)
-    if (!menuItem) return []
-
-    return {
-      ...menuItem,
-      quantity: cartItem.quantity
-    }
-  })
 
   return (
     <div className="mb-6 flex flex-col items-center gap-y-3 dark:bg-black">

@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import ErrorComp from '@/components/error-comp/ErrorComp'
@@ -5,7 +6,7 @@ import { CardContent, CardDescription } from '@/components/ui/card'
 import { getMenu } from '@/services/api'
 import { Order } from '@/types/order'
 
-const CardOrderItems = ({ order }: { order: Order }) => {
+const OrderList = ({ order }: { order: Order }) => {
   const {
     data = [],
     isLoading,
@@ -15,6 +16,18 @@ const CardOrderItems = ({ order }: { order: Order }) => {
     queryKey: ['menu'],
     queryFn: getMenu
   })
+
+  const mergedOrder = useMemo(() => {
+    return order.items.flatMap((orderItem) => {
+      const menuItem = data.find((item) => item.id === orderItem.id)
+      if (!menuItem) return []
+
+      return {
+        ...menuItem,
+        quantity: orderItem.quantity
+      }
+    })
+  }, [order, data])
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -26,7 +39,7 @@ const CardOrderItems = ({ order }: { order: Order }) => {
 
   return (
     <CardContent className="pt-4">
-      {data.map((item, index) => (
+      {mergedOrder.map((item, index) => (
         <CardDescription key={index} className="flex justify-between">
           <p>{item!.name}</p>
           <p>{order.items[index]?.quantity}</p>
@@ -36,4 +49,4 @@ const CardOrderItems = ({ order }: { order: Order }) => {
   )
 }
 
-export default CardOrderItems
+export default OrderList

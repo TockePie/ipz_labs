@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 import { getMenu } from '@/services/api'
@@ -12,15 +13,17 @@ const useTotalPrice = () => {
     queryFn: getMenu
   })
 
-  const mergedCart = cart.flatMap((cartItem) => {
-    const menuItem = data.find((item) => item.id === cartItem.id)
-    if (!menuItem) return []
+  const mergedCart = useMemo(() => {
+    return cart.flatMap((cartItem) => {
+      const menuItem = data.find((item) => item.id === cartItem.id)
+      if (!menuItem) return []
 
-    return {
-      ...menuItem,
-      quantity: cartItem.quantity
-    }
-  })
+      return {
+        ...menuItem,
+        quantity: cartItem.quantity
+      }
+    })
+  }, [cart, data])
 
   const totalPrice = mergedCart.reduce((acc, item) => {
     return acc + item.price * item.quantity

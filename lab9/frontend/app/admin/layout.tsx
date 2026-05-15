@@ -1,5 +1,3 @@
-import { ReactNode } from 'react'
-
 import Navbar from './components/navbar/Navbar'
 
 const metadata = {
@@ -9,7 +7,7 @@ const metadata = {
 const CartLayout = ({
   children
 }: Readonly<{
-  children: ReactNode
+  children: React.ReactNode
 }>) => {
   return (
     <>
