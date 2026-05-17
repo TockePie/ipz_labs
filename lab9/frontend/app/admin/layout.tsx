@@ -4,7 +4,7 @@ const metadata = {
   title: 'Admin Page'
 }
 
-const CartLayout = ({
+const AdminLayout = ({
   children
 }: Readonly<{
   children: React.ReactNode
@@ -18,4 +18,4 @@ const CartLayout = ({
 }
 
 export { metadata }
-export default CartLayout
+export default AdminLayout

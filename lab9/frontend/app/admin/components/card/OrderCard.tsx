@@ -1,42 +1,22 @@
 'use client'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { MapPin, Phone, User, X } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { deleteOrder, updateOrderStatus } from '@/services/api'
 import { Order } from '@/types/order'
 
 import OrderList from './components/OrderList'
 import StatusTabs from './components/StatusTabs'
 
-const OrderCard = ({ order }: { order: Order }) => {
-  const queryClient = useQueryClient()
+interface Props {
+  order: Order
+  onDelete: () => void
+  isDeleting: boolean
+  onChangeStatus: (value: string) => void
+}
 
-  const { mutate: performDelete, isPending: isDeleting } = useMutation({
-    mutationFn: deleteOrder,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        predicate: (query) => query.queryKey[0] === 'orders'
-      })
-    },
-    onError: (err) => {
-      console.error('Failed to delete order:', err)
-    }
-  })
-
-  const handleDeleteOrder = () => {
-    performDelete(order.id)
-  }
-
-  const handleChangeStatus = (value: string) => {
-    updateOrderStatus(order.id, value)
-    queryClient.invalidateQueries({
-      predicate: (query) => query.queryKey[0] === 'orders'
-    })
-  }
-
+const OrderCard = ({ order, onDelete, isDeleting, onChangeStatus }: Props) => {
   const shortId = order.id.split('-')[1] || order.id.substring(0, 6)
 
   return (
@@ -57,7 +37,7 @@ const OrderCard = ({ order }: { order: Order }) => {
               size="icon"
               variant="ghost"
               disabled={isDeleting}
-              onClick={handleDeleteOrder}
+              onClick={onDelete}
               aria-label="Delete completed order"
             >
               <X className={`h-4 w-4 ${isDeleting ? 'animate-pulse' : ''}`} />
@@ -98,7 +78,10 @@ const OrderCard = ({ order }: { order: Order }) => {
       <div className="border-t border-neutral-100 dark:border-neutral-800" />
 
       <CardFooter className="w-full justify-center bg-neutral-50/50 py-3 dark:bg-neutral-900/30">
-        <StatusTabs current={order.status} onChange={handleChangeStatus} />
+        <StatusTabs
+          current={order.status}
+          onChange={(value: string) => onChangeStatus(value)}
+        />
       </CardFooter>
     </Card>
   )

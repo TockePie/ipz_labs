@@ -1,16 +1,18 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Inbox } from 'lucide-react'
 
 import ErrorComp from '@/components/error-comp/ErrorComp'
 import LoadingComp from '@/components/loading/LoadingComp'
-import { getOrders } from '@/services/api'
+import { deleteOrder, getOrders, updateOrderStatus } from '@/services/api'
 import { Order } from '@/types/order'
 
 import OrderCard from './components/card/OrderCard'
 
 const AdminPage = () => {
+  const queryClient = useQueryClient()
+
   const {
     data: orders,
     isLoading,
@@ -19,6 +21,21 @@ const AdminPage = () => {
   } = useQuery<Order[]>({
     queryKey: ['orders'],
     queryFn: getOrders
+  })
+
+  const { mutate: performDelete, isPending: isDeleting } = useMutation({
+    mutationFn: deleteOrder,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] })
+    }
+  })
+
+  const { mutate: performStatusUpdate } = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: string }) =>
+      updateOrderStatus(id, status),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders'] })
+    }
   })
 
   if (isLoading) {
@@ -64,7 +81,15 @@ const AdminPage = () => {
         ) : (
           <div className="grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {orders?.map((order) => (
-              <OrderCard key={order.id} order={order} />
+              <OrderCard
+                key={order.id}
+                order={order}
+                onDelete={() => performDelete(order.id)}
+                isDeleting={isDeleting}
+                onChangeStatus={(value: string) => {
+                  performStatusUpdate({ id: order.id, status: value })
+                }}
+              />
             ))}
           </div>
         )}

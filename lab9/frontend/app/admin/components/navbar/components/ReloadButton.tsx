@@ -8,15 +8,11 @@ import { Button } from '@/components/ui/button'
 
 const ReloadButton = () => {
   const queryClient = useQueryClient()
-  const isFetching = useIsFetching({
-    predicate: (query) => query.queryKey[0] === 'orders'
-  })
+  const isFetching = useIsFetching({ queryKey: ['orders'] })
   const isLoading = isFetching > 0
 
   const handleReload = () => {
-    queryClient.invalidateQueries({
-      predicate: (query) => query.queryKey[0] === 'orders'
-    })
+    queryClient.invalidateQueries({ queryKey: ['orders'] })
   }
 
   return (
@@ -25,13 +21,10 @@ const ReloadButton = () => {
       disabled={isLoading}
       variant="outline"
       size="sm"
-      className="transitions-all gap-2 text-xs font-medium text-neutral-700 hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
+      className="gap-2 text-xs font-medium text-neutral-700 transition-all hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
     >
       <RefreshCw
-        className={cx(
-          'size-3.5',
-          isLoading ? 'animate-spin text-neutral-400' : ''
-        )}
+        className={cx('size-3.5', isLoading && 'animate-spin text-neutral-400')}
       />
       {isLoading ? 'Syncing...' : 'Reload Orders'}
     </Button>

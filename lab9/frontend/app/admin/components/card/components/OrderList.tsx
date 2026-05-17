@@ -34,14 +34,14 @@ const OrderList = ({ order }: { order: Order }) => {
   }
 
   if (isError) {
-    return <ErrorComp message={error!.message} keyArray={['menu']} />
+    return <ErrorComp message={error.message} keyArray={['menu']} />
   }
 
   return (
     <CardContent className="pt-4">
       {mergedOrder.map((item, index) => (
         <CardDescription key={index} className="flex justify-between">
-          <p>{item!.name}</p>
+          <p>{item.name}</p>
           <p>{order.items[index]?.quantity}</p>
         </CardDescription>
       ))}
