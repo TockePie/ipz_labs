@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import ErrorComp from '@/components/error-comp/ErrorComp'
 import { useCartStore } from '@/hooks/use-cart-store'
 import useTotalPrice from '@/hooks/use-total-price'
-import { getMenu } from '@/services/api'
+import { getMenu } from '@/lib/api'
 
 import CartFooterSection from './components/CartFooter'
 import CartItem from './components/CartItem'

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
-import { getMenu } from '@/services/api'
+import { getMenu } from '@/lib/api'
 
 import { useCartStore } from './use-cart-store'
 

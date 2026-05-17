@@ -5,7 +5,7 @@ import { Inbox } from 'lucide-react'
 
 import ErrorComp from '@/components/error-comp/ErrorComp'
 import LoadingComp from '@/components/loading/LoadingComp'
-import { deleteOrder, getOrders, updateOrderStatus } from '@/services/api'
+import { deleteOrder, getOrders, updateOrderStatus } from '@/lib/api'
 import { Order } from '@/types/order'
 
 import OrderCard from './components/card/OrderCard'

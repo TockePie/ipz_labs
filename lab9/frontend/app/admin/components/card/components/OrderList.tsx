@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import ErrorComp from '@/components/error-comp/ErrorComp'
 import { CardContent, CardDescription } from '@/components/ui/card'
-import { getMenu } from '@/services/api'
+import { getMenu } from '@/lib/api'
 import { Order } from '@/types/order'
 
 const OrderList = ({ order }: { order: Order }) => {

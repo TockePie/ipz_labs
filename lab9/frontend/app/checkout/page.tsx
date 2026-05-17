@@ -4,7 +4,7 @@ import { useActionState, useEffect } from 'react'
 
 import { useCartStore } from '@/hooks/use-cart-store'
 import useTotalPrice from '@/hooks/use-total-price'
-import { sendOrder } from '@/services/api'
+import { sendOrder } from '@/lib/api'
 import { Customer } from '@/types/customer'
 
 import OrderForm from './components/OrderForm'
@@ -36,7 +36,7 @@ const CheckoutPage = () => {
       id: `order-${new Date().getTime()}`,
       items: cart,
       customerDetails: customer,
-      status: 'inactive',
+      status: 'inactive' as 'inactive' | 'cooking' | 'completed',
       totalPrice
     }
 
