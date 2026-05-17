@@ -1,15 +1,13 @@
-import { ReactNode } from 'react'
-
 import Navbar from './components/navbar/Navbar'
 
 const metadata = {
   title: 'Admin Page'
 }
 
-const CartLayout = ({
+const AdminLayout = ({
   children
 }: Readonly<{
-  children: ReactNode
+  children: React.ReactNode
 }>) => {
   return (
     <>
@@ -20,4 +18,4 @@ const CartLayout = ({
 }
 
 export { metadata }
-export default CartLayout
+export default AdminLayout

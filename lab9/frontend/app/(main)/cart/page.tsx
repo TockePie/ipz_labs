@@ -1,48 +1,69 @@
 'use client'
 
+import { useMemo } from 'react'
+import { useQuery } from '@tanstack/react-query'
+
 import ErrorComp from '@/components/error-comp/ErrorComp'
-import useCart from '@/hooks/use-cart'
-import { CartItemProps } from '@/types/cart'
+import { useCartStore } from '@/hooks/use-cart-store'
+import useTotalPrice from '@/hooks/use-total-price'
+import { getMenu } from '@/lib/api'
 
 import CartFooterSection from './components/CartFooter'
 import CartItem from './components/CartItem'
 import EmptyCart from './components/EmptyCart'
 
 const CartPage = () => {
-  const { cart, setCart, results } = useCart()
+  const cart = useCartStore((state) => state.cart)
+  const removeItem = useCartStore((state) => state.removeItem)
+  const totalPrice = useTotalPrice()
 
-  if (results.isLoading) {
+  const {
+    data = [],
+    isLoading,
+    isError,
+    error
+  } = useQuery({
+    queryKey: ['menu'],
+    queryFn: getMenu
+  })
+
+  const mergedCart = useMemo(() => {
+    return cart.flatMap((cartItem) => {
+      const menuItem = data.find((item) => item.id === cartItem.id)
+      if (!menuItem) return []
+
+      return {
+        ...menuItem,
+        quantity: cartItem.quantity
+      }
+    })
+  }, [cart, data])
+
+  if (isLoading) {
     return <p className="min-h-screen">Loading menu items...</p>
   }
 
-  if (results.isError) {
-    return <ErrorComp message={results.error?.message} keyArray={['cart']} />
+  if (isError) {
+    return <ErrorComp message={error.message} keyArray={['cart']} />
   }
 
   if (cart.length === 0) {
     return <EmptyCart />
   }
 
-  const filteredResults = results.data.filter((dish) => dish !== undefined)
-
   return (
     <div className="mb-6 flex flex-col items-center gap-y-3 dark:bg-black">
       <ul className="mx-auto w-[90vw]">
-        {cart.map((item: CartItemProps) => (
+        {mergedCart.map((item) => (
           <CartItem
             key={item.id}
-            item={item}
-            results={{ ...results, data: filteredResults }}
-            cart={cart}
-            setCart={setCart}
+            onRemove={() => removeItem(item.id)}
+            {...item}
           />
         ))}
       </ul>
 
-      <CartFooterSection
-        cart={cart}
-        results={{ ...results, data: filteredResults }}
-      />
+      <CartFooterSection totalPrice={totalPrice} />
     </div>
   )
 }

@@ -1,42 +1,70 @@
 'use client'
 
-import { useMutation } from '@tanstack/react-query'
+import { useActionState, useEffect } from 'react'
 
-import useCart from '@/hooks/use-cart'
-import usePrepareOrder from '@/hooks/use-prepare-order'
-import { sendOrder } from '@/services/api'
+import { useCartStore } from '@/hooks/use-cart-store'
+import useTotalPrice from '@/hooks/use-total-price'
+import { sendOrder } from '@/lib/api'
 import { Customer } from '@/types/customer'
 
 import OrderForm from './components/OrderForm'
 import StatusAlerts from './components/StatusAlerts'
 import TotalSection from './components/TotalSection'
 
-const CheckoutPage = () => {
-  const { cart, setCart, results } = useCart()
-  const prepareOrder = usePrepareOrder(cart, results)
+interface ActionState {
+  status: 'idle' | 'pending' | 'success' | 'error'
+  error?: string
+}
 
-  const { isPending, mutate, status } = useMutation({
-    mutationFn: async (order: Customer) => {
-      const orderData = {
-        ...prepareOrder(order),
-        totalPrice: Number(prepareOrder(order).totalPrice)
-      }
-      await sendOrder(orderData)
-    },
-    onError: (error) => {
-      console.log('Error sending order', error)
-    },
-    onSuccess: () => {
-      localStorage.removeItem('cart')
-      setCart([])
+const CheckoutPage = () => {
+  const cart = useCartStore((state) => state.cart)
+  const clearCart = useCartStore((state) => state.clearCart)
+  const totalPrice = useTotalPrice()
+
+  const handleOrderSubmit = async (
+    prevState: ActionState,
+    formData: FormData
+  ): Promise<ActionState> => {
+    const customer: Customer = {
+      name: formData.get('name') as string,
+      surname: formData.get('surname') as string,
+      address: formData.get('address') as string,
+      phone: formData.get('phone') as string
     }
-  })
+
+    const orderPayload = {
+      id: `order-${new Date().getTime()}`,
+      items: cart,
+      customerDetails: customer,
+      status: 'inactive' as 'inactive' | 'cooking' | 'completed',
+      totalPrice
+    }
+
+    try {
+      await sendOrder(orderPayload)
+      return { status: 'success' }
+    } catch (error) {
+      console.error('Error sending order', error)
+      return { status: 'error', error: 'Failed to submit order' }
+    }
+  }
+
+  const [state, formAction, isPending] = useActionState<ActionState, FormData>(
+    handleOrderSubmit,
+    { status: 'idle' }
+  )
+
+  useEffect(() => {
+    if (state.status === 'success') {
+      clearCart()
+    }
+  }, [state.status, clearCart])
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <TotalSection />
-      <OrderForm isPending={isPending} mutate={mutate} />
-      <StatusAlerts status={status} />
+      <TotalSection totalPrice={totalPrice} />
+      <OrderForm isPending={isPending} formAction={formAction} />
+      <StatusAlerts status={state.status} />
     </div>
   )
 }

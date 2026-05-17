@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
 
@@ -11,11 +10,11 @@ const metadata = {
 const CartLayout = ({
   children
 }: Readonly<{
-  children: ReactNode
+  children: React.ReactNode
 }>) => {
   return (
     <div className="flex flex-col items-center dark:bg-black">
-      <Link href="/cart" className="absolute left-4 top-4">
+      <Link href="/cart" className="absolute top-4 left-4">
         <Button
           variant="secondary"
           size="icon"

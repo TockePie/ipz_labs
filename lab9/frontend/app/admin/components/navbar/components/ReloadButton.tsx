@@ -1,24 +1,32 @@
 'use client'
 
-import { useQueryClient } from '@tanstack/react-query'
+import { useIsFetching, useQueryClient } from '@tanstack/react-query'
+import { cx } from 'class-variance-authority'
+import { RefreshCw } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 
 const ReloadButton = () => {
   const queryClient = useQueryClient()
+  const isFetching = useIsFetching({ queryKey: ['orders'] })
+  const isLoading = isFetching > 0
+
+  const handleReload = () => {
+    queryClient.invalidateQueries({ queryKey: ['orders'] })
+  }
 
   return (
     <Button
-      onClick={() =>
-        queryClient.invalidateQueries({
-          predicate: (query) => query.queryKey[0] === 'orders'
-        })
-      }
-      disabled={queryClient.isFetching() > 0}
-      variant="secondary"
-      className="border border-neutral-600 dark:bg-neutral-700 dark:text-neutral-100"
+      onClick={handleReload}
+      disabled={isLoading}
+      variant="outline"
+      size="sm"
+      className="gap-2 text-xs font-medium text-neutral-700 transition-all hover:bg-neutral-50 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-900"
     >
-      Reload
+      <RefreshCw
+        className={cx('size-3.5', isLoading && 'animate-spin text-neutral-400')}
+      />
+      {isLoading ? 'Syncing...' : 'Reload Orders'}
     </Button>
   )
 }

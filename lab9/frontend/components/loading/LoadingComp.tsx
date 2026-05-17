@@ -1,10 +1,4 @@
-import React, { FC } from 'react'
-
-interface LoadingCompProps {
-  text: string
-}
-
-const LoadingComp: FC<LoadingCompProps> = ({ text }) => {
+const LoadingComp = ({ text }: { text: string }) => {
   return (
     <div
       className="flex min-h-screen flex-col items-center justify-center dark:bg-black"

@@ -1,27 +1,28 @@
-const express = require('express')
-const cors = require('cors')
-const bodyParser = require('body-parser')
-const path = require('path')
+import express from 'express'
+import cors from 'cors'
+import pkg from 'body-parser'
+const { json } = pkg
+import { join } from 'path'
+import { fileURLToPath } from 'node:url'
 
-const { MenuManager, OrderManager } = require('./classes')
+import { MenuManager } from './classes/menu-manager.js'
+import { OrderManager } from './classes/order-manager.js'
 
-// Constants
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = join(__filename, '..')
+
 const PORT = 5000
 const app = express()
 
-// File paths
-const menuFilePath = path.join(__dirname, './data/menu.json')
-const ordersFilePath = path.join(__dirname, './data/orders.json')
+const menuFilePath = join(__dirname, './data/menu.json')
+const ordersFilePath = join(__dirname, './data/orders.json')
 
-// Instances
 const menuManager = new MenuManager(menuFilePath)
 const orderManager = new OrderManager(ordersFilePath)
 
-// Middleware
-app.use(bodyParser.json())
+app.use(json())
 app.use(cors())
 
-// Routes
 app.get('/menu', (_, res) => {
   const action = menuManager.getAllMenuItems()
 

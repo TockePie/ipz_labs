@@ -1,9 +1,8 @@
-import { ReactNode } from 'react'
+import { PropsWithChildren } from 'react'
 import Link from 'next/link'
 
-interface MenuItemProps {
+interface MenuItemProps extends PropsWithChildren {
   href: string
-  children: ReactNode
   title?: string
 }
 
